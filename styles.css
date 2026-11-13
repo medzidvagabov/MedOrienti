@@ -1,0 +1,392 @@
+/* ============================================================
+   МедОриентир — внешний стилевой файл (styles.css)
+   Платформа ИИ-профориентации студентов-медиков АГМУ
+
+   Подключение: заменить встроенный блок <style>…</style> в
+   <head> на <link rel="stylesheet" href="styles.css">
+   (разместить сразу ПОСЛЕ скрипта tailwind.config, чтобы
+   порядок каскада остался прежним: Tailwind CDN инжектирует
+   свои стили в конец <head> и перекрывает утилиты).
+   ============================================================ */
+
+/* ---------- 1. Переменные и база ---------- */
+:root{
+  --brand:        #1e3a75;
+  --brand-dark:   #162c5c;
+  --brand-darker: #142a52;
+  --teal:         #3b62ab;
+  --teal-soft:    #6a8cc9;
+  --ink:          #0f172a;
+  --muted:        #475569;
+  --line:         #dbe2ec;
+  --accent-gold:  #d8a413;
+  --danger:       #dc4b57;
+  --bg:           #f7f9f9;
+  --radius:       .75rem;
+}
+
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family:'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing:antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection{ background:rgba(59,98,171,.22); }
+
+/* Доступная фокусировка с клавиатуры */
+:focus-visible{ outline:2px solid var(--teal); outline-offset:2px; }
+
+/* Базовые типографские элементы, встречающиеся в контенте */
+b, strong{ font-weight:700; }
+code{
+  background:#eef2fa; color:var(--brand); padding:.1rem .4rem;
+  border-radius:.35rem; font-size:.85em;
+}
+
+/* Формы: наследуем шрифт и цвет, единая высота строки */
+input, select, textarea, button{ font:inherit; color:inherit; }
+textarea{ resize:vertical; }
+label{ font-size:.875rem; }
+
+/* Таблицы (сравнение направлений, кабинет работодателя) */
+table{ border-collapse:collapse; }
+th, td{ text-align:left; vertical-align:top; }
+
+/* ---------- 2. Скроллбар ---------- */
+::-webkit-scrollbar{ width:8px; height:8px; }
+::-webkit-scrollbar-track{ background:#eef2f1; }
+::-webkit-scrollbar-thumb{ background:#9db9b4; border-radius:8px; }
+::-webkit-scrollbar-thumb:hover{ background:var(--teal); }
+*{ scrollbar-width:thin; scrollbar-color:#9db9b4 #eef2f1; }
+
+/* ---------- 3. Градиенты и hero-паттерн ---------- */
+.grad-brand{ background:linear-gradient(135deg,#1e3a75 0%,#3b62ab 100%); }
+.grad-text{
+  background:linear-gradient(120deg,var(--brand-darker) 0%,var(--teal) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.grad-soft{ background:linear-gradient(180deg,#f3f6fb 0%,#ffffff 100%); }
+
+.hero-pattern{
+  background-image:
+    radial-gradient(circle at 82% 18%, rgba(43,122,113,.10), transparent 42%),
+    radial-gradient(circle at 12% 80%, rgba(30,58,117,.07), transparent 45%),
+    linear-gradient(to right, rgba(15,23,42,.028) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15,23,42,.028) 1px, transparent 1px);
+  background-size: auto, auto, 44px 44px, 44px 44px;
+}
+
+/* ---------- 4. Анимации появления при скролле ---------- */
+.fade-in{
+  opacity:0; transform:translateY(20px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.fade-in.visible{ opacity:1; transform:translateY(0); }
+.fade-in.delay-1{ transition-delay:.08s; }
+.fade-in.delay-2{ transition-delay:.16s; }
+.fade-in.delay-3{ transition-delay:.24s; }
+.fade-in.delay-4{ transition-delay:.32s; }
+@media (prefers-reduced-motion: reduce){
+  .fade-in{ transition:none; opacity:1; transform:none; }
+  *, *::before, *::after{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
+}
+
+@keyframes float    { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-12px) } }
+@keyframes pulseSoft{ 0%,100%{ opacity:.9 } 50%{ opacity:.5 } }
+@keyframes fadeIn   { from{ opacity:0 } to{ opacity:1 } }
+@keyframes popIn    { from{ opacity:0; transform:scale(.96) translateY(8px) } to{ opacity:1; transform:scale(1) translateY(0) } }
+@keyframes slideIn  { from{ transform:translateX(120%) } to{ transform:translateX(0) } }
+
+/* ---------- 5. Карточки ---------- */
+.card-hover{
+  transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.card-hover:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 34px -18px rgba(14,76,69,.28);
+  border-color:#c9ddd9 !important;
+}
+
+/* ---------- 6. Кнопки ---------- */
+.btn-primary{
+  background:var(--brand); color:#fff; font-weight:600;
+  padding:.75rem 1.5rem; border-radius:var(--radius);
+  transition:background .2s ease, transform .2s ease, box-shadow .2s ease;
+  box-shadow:0 6px 16px -8px rgba(30,58,117,.55);
+}
+.btn-primary:hover{ background:var(--brand-dark); transform:translateY(-1px); }
+.btn-primary:active{ transform:translateY(0); }
+
+.btn-ghost{
+  border:1px solid var(--line); background:#fff; color:var(--ink); font-weight:500;
+  padding:.75rem 1.5rem; border-radius:var(--radius);
+  transition:all .2s ease; cursor:pointer;
+}
+.btn-ghost:hover{ border-color:var(--brand); color:var(--brand); }
+
+/* ---------- 7. Бейджи ---------- */
+.badge{
+  display:inline-flex; align-items:center; gap:.35rem;
+  padding:.25rem .7rem; border-radius:999px;
+  font-size:.75rem; font-weight:600;
+}
+.badge-brand{ background:#e5ebf6; color:#162c5c; }
+.badge-teal { background:#ddeeea; color:#1f5c53; }
+.badge-amber{ background:#f6eddc; color:#8a6116; }
+.badge-rose { background:#f9e4e7; color:#9f2b3f; }
+
+/* ---------- 8. Навигация ---------- */
+.nav-link{ position:relative; }
+.nav-link::after{
+  content:''; position:absolute; left:0; bottom:-4px;
+  height:2px; width:0; background:var(--brand);
+  transition:width .25s ease;
+}
+.nav-link:hover::after{ width:100%; }
+
+/* Мобильное меню */
+.mobile-menu{ display:none; }
+.mobile-menu.open{ display:block; }
+
+/* ---------- 9. Счётчик уведомлений ---------- */
+.notif-dot{
+  position:absolute; top:-4px; right:-6px;
+  min-width:18px; height:18px; padding:0 4px;
+  border-radius:999px; background:var(--danger); color:#fff;
+  font-size:.7rem; font-weight:700; border:2px solid #fff;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* ---------- 10. Модальные окна ---------- */
+.modal-backdrop{
+  position:fixed; inset:0; z-index:80; padding:1rem;
+  background:rgba(15,23,42,.55);
+  backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px);
+  display:none; align-items:center; justify-content:center;
+  animation:fadeIn .22s ease;
+}
+.modal-backdrop.open{ display:flex; }
+.modal-box{
+  background:#fff; border-radius:1.25rem; max-width:760px; width:100%;
+  max-height:90vh; overflow-y:auto;
+  box-shadow:0 28px 70px -24px rgba(14,76,69,.4);
+  animation:popIn .28s cubic-bezier(.2,.9,.3,1.15);
+}
+@media (max-width: 640px){
+  .modal-backdrop{ padding:.5rem; align-items:flex-end; }
+  .modal-box{ border-radius:1rem 1rem .75rem .75rem; max-height:94dvh; }
+}
+
+/* ---------- 11. Поиск ---------- */
+.search-input{
+  width:100%; padding:.65rem 1rem .65rem 2.5rem; border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") no-repeat .8rem center;
+  font-size:.875rem; outline:none;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.search-input:focus{ border-color:var(--brand); box-shadow:0 0 0 3px rgba(30,58,117,.12); }
+
+/* ---------- 12. Чипы фильтров (вакансии, карта) ---------- */
+.chip, .vac-filter{
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.5rem .9rem; border-radius:999px;
+  border:1px solid var(--line); background:#fff;
+  font-size:.875rem; font-weight:500; cursor:pointer;
+  transition:all .18s ease;
+}
+.chip:hover, .vac-filter:hover{ border-color:var(--teal); }
+.chip.active, .vac-filter.active{ background:var(--brand); color:#fff; border-color:var(--brand); }
+
+/* Чипы фильтра карты */
+.map-filter{
+  border:1px solid var(--line); background:#fff;
+  border-radius:.6rem; padding:.4rem .8rem;
+  font-size:.8rem; font-weight:600;
+  transition:all .15s ease; cursor:pointer;
+}
+.map-filter.on{ background:var(--brand); color:#fff; border-color:var(--brand); }
+
+/* ---------- 13. Шкала оценок анкеты ---------- */
+.scale-btn{
+  width:44px; height:44px; border-radius:999px;
+  border:2px solid var(--line);
+  display:inline-flex; align-items:center; justify-content:center;
+  font-weight:600; color:var(--muted); background:#fff; cursor:pointer;
+  transition:all .18s ease; -webkit-tap-highlight-color:transparent;
+}
+.scale-btn:hover{ border-color:var(--brand); color:var(--brand); }
+.scale-btn.active{
+  background:var(--brand); color:#fff; border-color:var(--brand);
+  box-shadow:0 5px 14px -6px rgba(30,58,117,.55);
+}
+@media (max-width: 380px){ .scale-btn{ width:40px; height:40px; } }
+
+/* Шаги анкеты */
+.quiz-step-dot{
+  width:32px; height:32px; border-radius:999px; flex:0 0 auto;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:.85rem;
+  border:2px solid var(--line); color:#94a3b8; background:#fff;
+}
+.quiz-step-dot.active{ background:var(--brand); color:#fff; border-color:var(--brand); }
+.quiz-step-dot.done  { background:#8fb5ae; color:#fff; border-color:transparent; }
+
+/* Горизонтальный скролл точек анкеты на узких экранах */
+#quizSteps{ overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
+#quizSteps::-webkit-scrollbar{ display:none; }
+
+/* ---------- 14. Ранжирование (drag & drop) ---------- */
+.rank-item{
+  display:flex; align-items:center; gap:.75rem;
+  padding:.75rem 1rem; background:#fff;
+  border:1px solid var(--line); border-radius:var(--radius);
+  cursor:grab; transition:all .2s ease;
+}
+.rank-item:hover{ border-color:var(--brand); }
+.rank-item.dragging{ opacity:.5; }
+
+/* ---------- 15. Табы личного кабинета и работодателя ---------- */
+.prof-tab, .emp-tab{
+  background:none; cursor:pointer;
+  transition:color .2s ease, border-color .2s ease;
+}
+
+/* ---------- 16. Избранное ---------- */
+.fav-btn{
+  width:32px; height:32px; border-radius:.6rem; flex:0 0 auto;
+  border:1px solid var(--line); background:#fff;
+  color:#b6c4c1; font-size:1.05rem; line-height:1; cursor:pointer;
+  display:inline-flex; align-items:center; justify-content:center;
+  transition:all .18s ease;
+}
+.fav-btn:hover{ border-color:var(--accent-gold); color:var(--accent-gold); }
+.fav-btn.active{ background:#fdf6e3; border-color:#e9c655; color:var(--accent-gold); }
+
+/* ---------- 17. Звёзды рейтинга ---------- */
+.star{ color:var(--line); cursor:pointer; transition:color .15s ease; }
+.stars-row{
+  display:inline-flex; flex-direction:row-reverse; justify-content:flex-end;
+}
+.stars-row .star:hover,
+.stars-row .star:hover ~ .star,
+.star.active{ color:var(--accent-gold); }
+
+/* ---------- 18. FAQ (details/summary) ---------- */
+.faq-item{
+  border:1px solid #e2eae8; border-radius:1rem;
+  background:#fff; overflow:hidden;
+}
+.faq-item summary{
+  list-style:none; cursor:pointer;
+  padding:1.1rem 1.25rem; font-weight:600; font-size:.95rem;
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+}
+.faq-item summary::-webkit-details-marker{ display:none; }
+.faq-item summary::after{
+  content:'+'; font-size:1.3rem; font-weight:500;
+  color:var(--teal); flex:0 0 auto; transition:transform .2s ease;
+}
+.faq-item[open] summary::after{ transform:rotate(45deg); }
+.faq-item .faq-body{
+  padding:0 1.25rem 1.1rem; font-size:.9rem;
+  color:var(--muted); line-height:1.6;
+}
+
+/* ---------- 19. Карта (Leaflet) ---------- */
+#map{ height:500px; width:100%; }
+@media (max-width: 640px){ #map{ height:340px; } }
+
+/* ---------- 20. Плавающая кнопка чата ---------- */
+.chat-fab{
+  position:fixed; right:1.25rem; bottom:1.25rem; z-index:70;
+  width:56px; height:56px; border-radius:999px;
+  background:var(--brand); color:#fff; border:none;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 26px -8px rgba(30,58,117,.55);
+  cursor:pointer; transition:transform .2s ease, background .2s ease;
+}
+.chat-fab:hover{ transform:scale(1.06); background:var(--brand-dark); }
+
+/* ---------- 21. Уведомления-тосты ---------- */
+.toast{
+  position:fixed; top:1.25rem; right:1.25rem; z-index:100;
+  background:#fff; border-left:4px solid var(--teal);
+  padding:1rem 1.25rem; border-radius:var(--radius);
+  box-shadow:0 10px 30px -10px rgba(15,23,42,.25);
+  max-width:320px; animation:slideIn .3s ease;
+}
+@media (max-width: 640px){ .toast{ left:1rem; right:1rem; max-width:none; } }
+
+/* ---------- 22. Полоса прогресса чтения и кнопка «наверх» ---------- */
+#scrollProgress{
+  position:fixed; top:0; left:0; height:3px; width:0; z-index:95;
+  background:linear-gradient(90deg,#1e3a75,#3b62ab);
+  transition:width .1s linear;
+}
+#toTop{
+  position:fixed; right:1.25rem; bottom:5.25rem; z-index:69;
+  width:44px; height:44px; border-radius:999px;
+  background:#fff; color:var(--brand); border:1px solid var(--line);
+  box-shadow:0 8px 22px -10px rgba(15,23,42,.25);
+  display:none; align-items:center; justify-content:center;
+  cursor:pointer; transition:transform .2s ease;
+}
+#toTop.show{ display:flex; }
+#toTop:hover{ transform:translateY(-2px); }
+
+/* ---------- 23. Печать ---------- */
+@media print{
+  body *{ visibility:hidden; }
+  #printArea, #printArea *{ visibility:visible; }
+  #printArea{
+    position:absolute; left:0; top:0; width:100%;
+    padding:1.5rem; display:block !important;
+  }
+  .no-print{ display:none !important; }
+}
+
+/* ---------- 24. Тёмная тема ---------- */
+.dark body{ background:#0d1524; color:#cbd5e1; }
+.dark .bg-white{ background-color:#131f33 !important; }
+.dark .bg-slate-50{ background-color:#0f1828 !important; }
+.dark .bg-slate-100{ background-color:#182338 !important; }
+.dark .bg-slate-900{ background-color:#0a111e !important; }
+.dark .grad-soft{ background:linear-gradient(180deg,#0d1524 0%,#101a2c 100%) !important; }
+.dark header{ background:rgba(13,21,36,.92) !important; }
+.dark .hero-pattern{ background-color:#0d1524; }
+.dark .text-slate-900, .dark .text-slate-800, .dark .text-slate-700{ color:#e2e8f0 !important; }
+.dark .text-slate-600, .dark .text-slate-500{ color:#94a3b8 !important; }
+.dark .border-slate-100, .dark .border-slate-200{ border-color:#22304a !important; }
+.dark .modal-box{ background:#131f33; color:#cbd5e1; }
+.dark .btn-ghost{ background:#131f33; border-color:#2a3b57; color:#d7dee8; }
+.dark .map-filter{ background:#131f33; border-color:#2a3b57; color:#d7dee8; }
+.dark .map-filter.on{ background:var(--teal); border-color:var(--teal); color:#fff; }
+.dark input, .dark select, .dark textarea{
+  background:#0f1828 !important; border-color:#2a3b57 !important; color:#e2e8f0 !important;
+}
+.dark .grad-text{
+  background:linear-gradient(120deg,#8fb0e8 0%,#6a8cc9 100%);
+  -webkit-background-clip:text; background-clip:text;
+}
+.dark .bg-sky-50\/70, .dark .bg-teal-50\/60, .dark .bg-indigo-50\/60, .dark .bg-slate-50\/60{ background-color:#182338 !important; }
+.dark .bg-teal-50, .dark .bg-amber-50, .dark .bg-sky-50, .dark .bg-indigo-50, .dark .bg-emerald-50{ background-color:#182338 !important; }
+.dark .border-teal-100, .dark .border-amber-100, .dark .border-sky-200, .dark .border-indigo-100, .dark .border-emerald-100{ border-color:#22304a !important; }
+/* карточки FAQ и бейджи в тёмной теме: тёмный фон вместо белого */
+.dark .faq-item{ background:#131f33; border-color:#22304a; }
+.dark .faq-item summary{ color:#e2e8f0; }
+.dark .faq-item .faq-body{ color:#94a3b8; }
+.dark .badge-brand{ background:#1c2c4d; color:#a8c0ea; }
+.dark .badge-teal { background:#152c33; color:#7fc4d8; }
+.dark .badge-amber{ background:#3a2f14; color:#e3c27b; }
+.dark .badge-rose { background:#3d1f27; color:#e79bab; }
+.dark .scale-btn, .dark .chip, .dark .rank-item, .dark .fav-btn{ background:#131f33; border-color:#2a3b57; color:#cbd5e1; }
+.dark .scale-btn.active, .dark .chip.active{ background:var(--brand); border-color:var(--brand); color:#fff; }
+.dark .rank-item:hover, .dark .scale-btn:hover, .dark .chip:hover{ border-color:var(--teal-soft); }
+.dark .toast{ background:#131f33; color:#e2e8f0; }
+.dark #toTop{ background:#131f33; border-color:#2a3b57; color:#8fb0e8; }
+.dark code{ background:#0f1828; color:#9db9d8; }
